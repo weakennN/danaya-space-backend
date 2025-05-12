@@ -1,0 +1,1 @@
+CREATE SCHEMA danaya_space AUTHORIZATION postgres;
