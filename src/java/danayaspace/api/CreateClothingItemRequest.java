@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class CreateClothingItemRequest {
 
     private String name;
+    private String imageId;
     private String websiteName;
     private String websiteUrl;
     private String notes;
