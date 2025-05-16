@@ -1,7 +1,6 @@
 package danayaspace.clothes;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import danayaspace.api.ClothingItemResponse;
 import danayaspace.api.CreateClothingItemRequest;

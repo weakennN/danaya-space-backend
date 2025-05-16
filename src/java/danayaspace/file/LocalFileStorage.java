@@ -6,11 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import danayaspace.api.ImageResponse;
 import danayaspace.config.StorageProperties;
 import danayaspace.exception.FileStorageException;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,27 @@ import lombok.RequiredArgsConstructor;
 public class LocalFileStorage implements FileStorage {
 
     private final StorageProperties storageProperties;
+
+    @Override
+    public ImageResponse getImage(String imageId) throws IOException {
+        Path rootLocation = getRoot();
+        return getImageFromRoot(imageId, rootLocation);
+    }
+
+    @Override
+    public List<ImageResponse> getImages(List<String> imageIds) throws IOException {
+        Path rootLocation = getRoot();
+
+        List<ImageResponse> result = new ArrayList<>();
+        for (String imageId : imageIds) {
+            ImageResponse image = getImageFromRoot(imageId, rootLocation);
+            if (image != null) {
+                result.add(image);
+            }
+        }
+
+        return result;
+    }
 
     @Override
     public String storeImage(MultipartFile file) throws IOException {
@@ -34,7 +58,7 @@ public class LocalFileStorage implements FileStorage {
         String extension = getExtensionFromContentType(file.getContentType());
         String filename = generateUniqueFilename() + extension;
 
-        Path rootLocation = Paths.get(storageProperties.getLocation());
+        Path rootLocation = getRoot();
         Path destination = rootLocation.resolve(filename).normalize().toAbsolutePath();
 
         if (!destination.getParent().equals(rootLocation.toAbsolutePath())) {
@@ -49,7 +73,7 @@ public class LocalFileStorage implements FileStorage {
 
     @Override
     public boolean checkImageExists(String imageId) {
-        Path rootLocation = Paths.get(storageProperties.getLocation()).toAbsolutePath();
+        Path rootLocation = getRoot();
 
         boolean exists = false;
         for (String ext : storageProperties.getSupportedExtensions()) {
@@ -66,6 +90,18 @@ public class LocalFileStorage implements FileStorage {
         }
 
         return exists;
+    }
+
+    @Override
+    public void deleteImage(String imageId) throws IOException {
+        Path rootLocation = getRoot();
+
+        ImageResponse image = getImageFromRoot(imageId, rootLocation);
+        if (image == null) {
+            return;
+        }
+
+        Files.delete(rootLocation.resolve(image.getImageId() + image.getExtension()));
     }
 
     private String generateUniqueFilename() {
@@ -90,5 +126,27 @@ public class LocalFileStorage implements FileStorage {
             default:
                 throw new FileStorageException("Unsupported image type: " + contentType);
         }
+    }
+
+    private ImageResponse getImageFromRoot(String imageId, Path rootLocation) throws IOException {
+        for (String extension : storageProperties.getSupportedExtensions()) {
+            Path candidate = rootLocation.resolve(imageId + extension).normalize();
+
+            if (Files.exists(candidate)) {
+                byte[] bytes = Files.readAllBytes(candidate);
+
+                return ImageResponse.builder()
+                        .imageId(imageId)
+                        .extension(extension)
+                        .bytes(bytes)
+                        .build();
+            }
+        }
+
+        return null;
+    }
+
+    private Path getRoot() {
+        return Paths.get(storageProperties.getLocation()).toAbsolutePath();
     }
 }
