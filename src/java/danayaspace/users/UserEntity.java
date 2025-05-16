@@ -1,4 +1,4 @@
-package danayaspace.clothes;
+package danayaspace.users;
 
 import java.time.OffsetDateTime;
 
@@ -16,38 +16,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "clothing_items")
+@Table(name = "users")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ClothingItemEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "image_id")
-    private String imageId;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "notes")
-    private String notes;
-
-    @Column(name = "website_name")
-    private String websiteName;
-
-    @Column(name = "website_url")
-    private String websiteUrl;
-
-    @Column(name = "favourite")
-    private boolean favourite;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "created_on")
     @CreationTimestamp
