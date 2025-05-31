@@ -1,5 +1,8 @@
 package danayaspace.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import danayaspace.api.ClothingItemResponse;
 import danayaspace.api.CreateClothingItemRequest;
 import danayaspace.clothes.ClothingItemService;
+import danayaspace.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -19,6 +23,12 @@ public class ClothingItemController {
 
     @PostMapping("/items")
     public ClothingItemResponse createItem(@RequestBody CreateClothingItemRequest request) {
-        return clothingItemService.storeClothingItem(request);
+        return clothingItemService.storeClothingItem(request, SecurityUtils.getUserId());
+    }
+
+    @GetMapping("/items")
+    public List<ClothingItemResponse> getAllItems() {
+        SecurityUtils.isAuthenticated();
+        return null;
     }
 }

@@ -18,5 +18,5 @@ logging:
     danayaspace: TRACE
 
 jwt:
-  secret: super-secret-35357238975yggdggsd
+  secret: uidghyuhgsdhuh424214dgsdhdsh353gdsh
   expiration: 3000000

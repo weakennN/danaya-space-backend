@@ -24,10 +24,6 @@ public class DSUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
 
-        return new User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.emptyList()
-        );
+        return new DSUser(user.getId(), user.getEmail(), user.getPassword());
     }
 }

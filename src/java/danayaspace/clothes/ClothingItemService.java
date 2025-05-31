@@ -16,20 +16,20 @@ public class ClothingItemService {
     private final FileStorageService fileStorageService;
     private final ClothingItemRepository clothingItemRepository;
 
-    public ClothingItemResponse storeClothingItem(CreateClothingItemRequest request) {
+    public ClothingItemResponse storeClothingItem(CreateClothingItemRequest request, Long userId) {
         if (fileStorageService.checkImageExists(request.getImageId())) {
             throw new IllegalArgumentException("Image with id " + request.getImageId() + " already exists");
         }
-        ClothingItemEntity clothingItem = toEntity(request);
+        ClothingItemEntity clothingItem = toEntity(request, userId);
         clothingItem = clothingItemRepository.save(clothingItem);
 
         return toResponse(clothingItem);
     }
 
-    private ClothingItemEntity toEntity(CreateClothingItemRequest request) {
+    private ClothingItemEntity toEntity(CreateClothingItemRequest request, Long userId) {
         return ClothingItemEntity.builder()
                 .name(request.getName())
-                .userId(1L)
+                .userId(userId)
                 .imageId(request.getImageId())
                 .websiteName(request.getWebsiteName())
                 .websiteUrl(request.getWebsiteUrl())
