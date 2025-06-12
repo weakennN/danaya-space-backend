@@ -28,7 +28,6 @@ public class ClothingItemController {
 
     @GetMapping("/items")
     public List<ClothingItemResponse> getAllItems() {
-        SecurityUtils.isAuthenticated();
-        return null;
+        return clothingItemService.getClothingItems(SecurityUtils.getUserId());
     }
 }

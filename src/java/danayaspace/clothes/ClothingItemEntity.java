@@ -34,6 +34,9 @@ public class ClothingItemEntity {
     @Column(name = "image_id")
     private String imageId;
 
+    @Column(name = "image_extension")
+    private String imageExtension;
+
     @Column(name = "name")
     private String name;
 

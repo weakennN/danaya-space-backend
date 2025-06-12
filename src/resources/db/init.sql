@@ -9,6 +9,7 @@ create table clothing_items (
   id bigserial primary key not null,
   user_id bigint not null references users(id),
   image_id varchar(50) not null,
+  image_extension varchar(10) not null,
   name text,
   notes text not null,
   website_name varchar(50),
@@ -17,4 +18,6 @@ create table clothing_items (
   created_on timestamptz not null default now()
 );
 
-select * from users;
+select * from clothing_items;
+
+drop table clothing_items;

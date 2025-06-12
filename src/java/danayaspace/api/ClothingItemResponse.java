@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class ClothingItemResponse {
 
     private Long id;
+    private String imageLink;
     private String websiteName;
     private String websiteUrl;
     private String notes;
