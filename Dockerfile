@@ -1,17 +1,21 @@
-FROM eclipse-temurin:17-jdk
+# Stage 1: Build the application using Maven
+FROM maven:3.9.5-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jdk
 WORKDIR /danayaspace
 
-# Copy the JAR file
-COPY target/*.jar danayaspace-1.0-SNAPSHOT.jar
+# Copy JAR from builder stage
+COPY --from=builder /app/target/*.jar danayaspace-1.0-SNAPSHOT.jar
 
-# Copy the application-prod.yml (make sure it's in the same folder as your Dockerfile)
+# Copy production configuration
 COPY /src/resources/config/application-prod.yml /danayaspace/application-prod.yml
 
-# Set environment variable to specify the Spring profile
+# Set environment to use 'prod' profile
 ENV SPRING_PROFILES_ACTIVE=prod
 
-EXPOSE 8080
-
-# Run the application with the correct profile
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "danayaspace-1.0-SNAPSHOT.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "danayaspace-1.0-SNAPSHOT.jar", "-Dspring.profiles.active=prod"]
