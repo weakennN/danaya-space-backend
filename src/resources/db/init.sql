@@ -17,7 +17,3 @@ create table clothing_items (
   favourite boolean not null default false,
   created_on timestamptz not null default now()
 );
-
-select * from clothing_items;
-
-drop table clothing_items;

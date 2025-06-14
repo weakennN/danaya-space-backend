@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://dpg-d16o0kumcj7s73ccnab0-a.frankfurt-postgres.render.com:5432/danayaspace
+    username: danayaspace_user
+    password: bVVQAwmMpxWk0wHJkpnAjzVWL8C1fMOU
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  server:
+    port: 8080
+
+logging:
+  level:
+    danayaspace: TRACE
+
+jwt:
+  secret: uidghyuhgsdhuh424214dgsdhdsh353gdsh
+  expiration: 3000000
