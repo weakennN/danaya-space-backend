@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/danaya-space
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://dpg-d16o0kumcj7s73ccnab0-a.frankfurt-postgres.render.com:5432/danayaspace
+    username: danayaspace_user
+    password: bVVQAwmMpxWk0wHJkpnAjzVWL8C1fMOU
     driver-class-name: org.postgresql.Driver
 
   jpa:
