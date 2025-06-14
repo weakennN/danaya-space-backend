@@ -64,4 +64,8 @@ public class FileStorageService {
             throw new FileStorageException("Delete failed: " + e.getMessage(), e);
         }
     }
+
+    public String getBaseUrl() {
+        return fileStorage.getBaseUrl();
+    }
 }

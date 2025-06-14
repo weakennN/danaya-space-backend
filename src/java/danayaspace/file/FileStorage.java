@@ -18,4 +18,6 @@ public interface FileStorage {
     boolean checkImageExists(String imageId);
 
     void deleteImage(String imageId) throws IOException;
+
+    String getBaseUrl();
 }

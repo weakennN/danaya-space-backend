@@ -104,6 +104,11 @@ public class LocalFileStorage implements FileStorage {
         Files.delete(rootLocation.resolve(image.getImageId() + image.getExtension()));
     }
 
+    @Override
+    public String getBaseUrl() {
+        return "/uploads/";
+    }
+
     private String generateUniqueFilename() {
         return UUID.randomUUID().toString();
     }

@@ -51,7 +51,7 @@ public class ClothingItemService {
     private ClothingItemResponse toResponse(ClothingItemEntity clothingItem) {
         return ClothingItemResponse.builder()
                 .id(clothingItem.getId())
-                .imageLink(clothingItem.getImageId() + "." + clothingItem.getImageExtension())
+                .imageLink(fileStorageService.getBaseUrl() + clothingItem.getImageId() + clothingItem.getImageExtension())
                 .websiteName(clothingItem.getWebsiteName())
                 .websiteUrl(clothingItem.getWebsiteUrl())
                 .notes(clothingItem.getNotes())
