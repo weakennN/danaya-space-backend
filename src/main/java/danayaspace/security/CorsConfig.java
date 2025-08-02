@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "https://danayaspace-frontend.onrender.com/")
+                        .allowedOrigins("http://localhost:3000", "https://danayaspace-frontend.onrender.com/", "http://159.69.184.242")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
