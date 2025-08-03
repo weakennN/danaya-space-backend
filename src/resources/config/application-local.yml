@@ -17,6 +17,13 @@ logging:
   level:
     danayaspace: TRACE
 
+storj:
+  access-key: jvzskdkwlaa42txaveoevwpw2psq
+  secret-key: j2zeskkoogora7eriouyxytcoggc3i375yip2njysjyln7wpyz2qu
+  endpoint: https://gateway.storjshare.io
+  bucket-name: danayaspace
+  # base-url: https://your-custom-domain.com  # Optional
+
 jwt:
   secret: uidghyuhgsdhuh424214dgsdhdsh353gdsh
-  expiration: 3000000
+  expiration: 30000000

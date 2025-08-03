@@ -32,6 +32,10 @@ public class ClothingItemService {
         ClothingItemEntity clothingItem = toEntity(request, userId, image);
         clothingItem = clothingItemRepository.save(clothingItem);
 
+        if (image.getUrl() != null) {
+            return toResponse(clothingItem, image.getUrl());
+        }
+
         return toResponse(clothingItem);
     }
 
@@ -49,9 +53,14 @@ public class ClothingItemService {
     }
 
     private ClothingItemResponse toResponse(ClothingItemEntity clothingItem) {
+        ImageResponse image = fileStorageService.getImage(clothingItem.getImageId());
+            return toResponse(clothingItem, image.getUrl());
+    }
+
+    private ClothingItemResponse toResponse(ClothingItemEntity clothingItem, String imageLink) {
         return ClothingItemResponse.builder()
                 .id(clothingItem.getId())
-                .imageLink(fileStorageService.getBaseUrl() + clothingItem.getImageId() + clothingItem.getImageExtension())
+                .imageLink(imageLink)
                 .websiteName(clothingItem.getWebsiteName())
                 .websiteUrl(clothingItem.getWebsiteUrl())
                 .notes(clothingItem.getNotes())

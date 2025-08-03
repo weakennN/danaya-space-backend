@@ -87,6 +87,13 @@
       <scope>runtime</scope>
     </dependency>
 
+    <!-- S3 -->
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>s3</artifactId>
+      <version>2.20.162</version>
+    </dependency>
+
   </dependencies>
 
 

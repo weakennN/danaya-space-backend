@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,28 +67,20 @@ public class LocalFileStorage implements FileStorage {
         try (InputStream is = file.getInputStream()) {
             Files.copy(is, destination, StandardCopyOption.REPLACE_EXISTING);
         }
-        return filename.replace(extension, "");
+        return filename;
     }
 
     @Override
     public boolean checkImageExists(String imageId) {
         Path rootLocation = getRoot();
 
-        boolean exists = false;
-        for (String ext : storageProperties.getSupportedExtensions()) {
-            Path candidate = rootLocation.resolve(imageId + ext).normalize();
+        Path candidate = rootLocation.resolve(imageId).normalize();
 
-            if (!candidate.getParent().equals(rootLocation)) {
-                throw new FileStorageException("Invalid image path");
-            }
-
-            if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
-                exists = true;
-                break;
-            }
+        if (!candidate.getParent().equals(rootLocation)) {
+            throw new FileStorageException("Invalid image path");
         }
 
-        return exists;
+        return Files.exists(candidate) && Files.isRegularFile(candidate);
     }
 
     @Override
@@ -101,7 +92,7 @@ public class LocalFileStorage implements FileStorage {
             return;
         }
 
-        Files.delete(rootLocation.resolve(image.getImageId() + image.getExtension()));
+        Files.delete(rootLocation.resolve(image.getImageId()));
     }
 
     @Override
@@ -109,9 +100,7 @@ public class LocalFileStorage implements FileStorage {
         return "/uploads/";
     }
 
-    private String generateUniqueFilename() {
-        return UUID.randomUUID().toString();
-    }
+
 
     private String getExtensionFromContentType(String contentType) {
         switch (contentType) {
@@ -134,18 +123,16 @@ public class LocalFileStorage implements FileStorage {
     }
 
     private ImageResponse getImageFromRoot(String imageId, Path rootLocation) throws IOException {
-        for (String extension : storageProperties.getSupportedExtensions()) {
-            Path candidate = rootLocation.resolve(imageId + extension).normalize();
+        Path candidate = rootLocation.resolve(imageId).normalize();
 
-            if (Files.exists(candidate)) {
-                byte[] bytes = Files.readAllBytes(candidate);
+        if (Files.exists(candidate)) {
+            byte[] bytes = Files.readAllBytes(candidate);
 
-                return ImageResponse.builder()
-                        .imageId(imageId)
-                        .extension(extension)
-                        .bytes(bytes)
-                        .build();
-            }
+            return ImageResponse.builder()
+                    .imageId(imageId)
+                    .extension(imageId.substring(imageId.lastIndexOf(".")))
+                    .bytes(bytes)
+                    .build();
         }
 
         return null;

@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FileStorageException.class)
     public ResponseEntity<String> handleStorageError(FileStorageException ex) {
-        log.warn("Storage error: {}", ex.getMessage());
+        log.error("Storage error: {}", ex.getMessage(), ex);
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

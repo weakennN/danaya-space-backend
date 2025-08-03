@@ -2,6 +2,7 @@ package danayaspace.file;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,4 +21,8 @@ public interface FileStorage {
     void deleteImage(String imageId) throws IOException;
 
     String getBaseUrl();
+
+    default String generateUniqueFilename() {
+        return UUID.randomUUID().toString();
+    }
 }

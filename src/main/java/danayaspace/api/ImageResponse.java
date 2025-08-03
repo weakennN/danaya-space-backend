@@ -13,5 +13,6 @@ public class ImageResponse {
 
     private String imageId;
     private String extension;
+    private String url;
     private byte[] bytes;
 }

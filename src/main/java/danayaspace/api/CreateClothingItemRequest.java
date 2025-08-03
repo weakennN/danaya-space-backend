@@ -11,6 +11,7 @@ public class CreateClothingItemRequest {
 
     private String name;
     private String imageId;
+    private String extension;
     private String websiteName;
     private String websiteUrl;
     private String notes;
