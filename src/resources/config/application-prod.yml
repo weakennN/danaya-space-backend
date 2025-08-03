@@ -20,3 +20,9 @@ logging:
 jwt:
   secret: uidghyuhgsdhuh424214dgsdhdsh353gdsh
   expiration: 3000000
+
+storj:
+  access-key: jvzskdkwlaa42txaveoevwpw2psq
+  secret-key: j2zeskkoogora7eriouyxytcoggc3i375yip2njysjyln7wpyz2qu
+  endpoint: https://gateway.storjshare.io
+  bucket-name: danayaspace
